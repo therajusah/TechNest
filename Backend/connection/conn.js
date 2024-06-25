@@ -13,8 +13,7 @@ const connectToMongoDB = async () => {
         const mongoURI = `mongodb+srv://${DB_USERNAME}:${encodedPassword}@cluster0.un7knal.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
 
         await mongoose.connect(mongoURI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+            useNewUrlParser: true
         });
         
         console.log("Connected to MongoDB");
