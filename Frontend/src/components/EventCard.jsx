@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const EventCard = ({ event }) => {
   if (!event || !event.imageUrl || !event.title || !event.description) {
@@ -7,7 +7,7 @@ const EventCard = ({ event }) => {
   }
 
   return (
-    <div className="overflow-hidden bg-red-500 rounded-md shadow-md hover:shadow-lg transition duration-300 ease-in-out">
+    <div className="overflow-hidden transition duration-300 ease-in-out bg-red-500 rounded-md shadow-md hover:shadow-lg">
       <img
         src={event.imageUrl}
         alt="Event"
@@ -15,12 +15,12 @@ const EventCard = ({ event }) => {
       />
 
       <div className="p-4">
-        <h2 className="text-xl font-bold mb-2">{event.title}</h2>
+        <h2 className="mb-2 text-xl font-bold">{event.title}</h2>
       </div>
 
       <Link
         to={`/event/${event.id}`}
-        className="block bg-white text-black-500 font-semibold px-4 py-2 rounded-b-md hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out"
+        className="block px-4 py-2 font-semibold transition duration-300 ease-in-out bg-white text-black-500 rounded-b-md hover:bg-blue-600 hover:text-white"
       >
         View Details & Register
       </Link>

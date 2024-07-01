@@ -24,21 +24,20 @@ const Login = () => {
     e.preventDefault();
     console.log('Email:', email);
     console.log('Password:', password);
-
     setEmail('');
     setPassword('');
   };
 
   return (
-    <div className="h-screen w-full">
+    <div className="w-full h-screen">
       <Navbar />
-      <div className="flex flex-col items-center justify-center h-full w-full">
+      <div className="flex flex-col items-center justify-center w-full h-full">
         <h1 className="text-3xl font-bold">Login</h1>
         <form className="flex flex-col items-center justify-center w-1/2" onSubmit={handleSubmit}>
           <input
             type="email"
             placeholder="Enter Email"
-            className="border-2 border-gray-300 rounded-md p-2 mt-4 w-full"
+            className="w-full p-2 mt-4 border-2 border-gray-300 rounded-md"
             value={email}
             onChange={handleEmailChange}
           />
@@ -46,7 +45,7 @@ const Login = () => {
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter Password"
-              className="border-2 border-gray-300 rounded-md p-2 mt-4 w-full"
+              className="w-full p-2 mt-4 border-2 border-gray-300 rounded-md"
               value={password}
               onChange={handlePasswordChange}
             />
@@ -58,7 +57,7 @@ const Login = () => {
               <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </button>
           </div>
-          <button type="submit" className="bg-blue-500 text-white rounded-md p-2 mt-4 w-full">
+          <button type="submit" className="w-full p-2 mt-4 text-white bg-blue-500 rounded-md">
             Login
           </button>
         </form>
