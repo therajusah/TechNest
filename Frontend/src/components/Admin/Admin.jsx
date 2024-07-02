@@ -80,11 +80,10 @@ const AdminPanel = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="flex items-center justify-between p-4 bg-blue-600">
+      <nav className="flex items-center justify-between p-4 bg-orange-600">
         <div className="text-lg font-bold text-white">Admin Panel</div>
         <div className="flex space-x-4">
-          <a href="/" className="text-white">Home</a>
-          <a href="/events" className="text-white">Events</a>
+          <a href="/admin" className="text-white">Home</a>
           <a href="/profile" className="text-white">Profile</a>
         </div>
       </nav>
@@ -95,7 +94,7 @@ const AdminPanel = () => {
         <button
           onClick={() => {
             setShowForm(!showForm);
-            if (!showForm) scrollFormIntoView(); // Scroll to form when opening
+            if (!showForm) scrollFormIntoView(); 
           }}
           className="px-4 py-2 mb-4 text-white bg-blue-500 rounded"
         >
@@ -176,7 +175,6 @@ const AdminPanel = () => {
             </li>
           ))}
         </ul>
-        <ToastContainer />
       </div>
     </div>
   );
