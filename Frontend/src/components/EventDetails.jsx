@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import axios from 'axios';
 
 const EventDetails = () => {
-  const { id } = useParams(); // Get the event ID from URL params (Todo...)
+  const { id } = useParams();
+  const [event, setEvent] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,6 +14,16 @@ const EventDetails = () => {
     member4: '',
   });
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/v2/events/${id}`)
+      .then(response => {
+        setEvent(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching event details:', error);
+      });
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({
@@ -25,43 +37,35 @@ const EventDetails = () => {
     console.log(formData);
   };
 
-  // Example event data (Todo...)
-  const event = {
-    id: 1,
-    title: 'Sample Event',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam convallis justo at urna semper lobortis.',
-    imageUrl: "https://images.unsplash.com/photo-1611601322175-ef8ec8c85f01?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Example image URL
-  };
-
   const showForm = () => {
     setShowRegistrationForm(true);
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center h-screen">
-      {!showRegistrationForm && (
-        <div className="bg-gray-700 text-white p-4 rounded-md shadow-md md:w-1/2">
+    <div className="flex flex-col items-center justify-center h-screen md:flex-row">
+      {!showRegistrationForm && event && (
+        <div className="p-4 text-white bg-gray-700 rounded-md shadow-md md:w-1/2">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold">{event.title}</h2>
-            <Link to="/events" className="text-white text-lg hover:text-gray-400">
+            <Link to="/events" className="text-lg text-white hover:text-gray-400">
               &#x2715;
             </Link>
           </div>
           <img
             src={event.imageUrl}
             alt="Event"
-            className="object-cover w-full h-40 sm:h-48 md:h-56 lg:h-64 xl:h-72 mb-4"
+            className="object-cover w-full h-40 mb-4 sm:h-48 md:h-56 lg:h-64 xl:h-72"
           />
           <p className="mb-4">{event.description}</p>
           <button
             onClick={showForm}
-            className="bg-white text-blue-500 font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out"
+            className="px-4 py-2 font-semibold text-blue-500 transition duration-300 ease-in-out bg-white rounded-lg hover:bg-blue-600 hover:text-white"
           >
             Register for Event
           </button>
           <Link
-            to={`/event/${event.id}/rulebook`}
-            className="ml-4 bg-white text-blue-500 font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out"
+            to={`/event/${event._id}/rulebook`}
+            className="px-4 py-2 ml-4 font-semibold text-blue-500 transition duration-300 ease-in-out bg-white rounded-lg hover:bg-blue-600 hover:text-white"
           >
             View Rulebook
           </Link>
@@ -69,8 +73,8 @@ const EventDetails = () => {
       )}
 
       {showRegistrationForm && (
-        <div className="bg-gray-700 text-black p-4 rounded-md shadow-md md:w-1/2 md:ml-4">
-          <h2 className="text-2xl font-bold mb-4">Register for Event</h2>
+        <div className="p-4 text-black bg-gray-700 rounded-md shadow-md md:w-1/2 md:ml-4">
+          <h2 className="mb-4 text-2xl font-bold">Register for Event</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="text"
@@ -78,7 +82,7 @@ const EventDetails = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Your Name"
-              className="border border-gray-300 rounded px-3 py-2 w-full"
+              className="w-full px-3 py-2 border border-gray-300 rounded"
               required
             />
             <input
@@ -87,7 +91,7 @@ const EventDetails = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Your Email"
-              className="border border-gray-300 rounded px-3 py-2 w-full"
+              className="w-full px-3 py-2 border border-gray-300 rounded"
               required
             />
             {[1, 2, 3, 4].map((index) => (
@@ -98,20 +102,20 @@ const EventDetails = () => {
                 value={formData[`member${index}`]}
                 onChange={handleChange}
                 placeholder={`Member ${index} Name`}
-                className="border border-gray-300 rounded px-3 py-2 w-full"
+                className="w-full px-3 py-2 border border-gray-300 rounded"
               />
             ))}
             <div className="flex justify-between">
               <button
                 type="submit"
-                className="bg-white text-blue-500 font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out"
+                className="px-4 py-2 font-semibold text-blue-500 transition duration-300 ease-in-out bg-white rounded-lg hover:bg-blue-600 hover:text-white"
               >
                 Register
               </button>
               <Link
                 to="/events"
                 onClick={() => setShowRegistrationForm(false)}
-                className="bg-white text-blue-500 font-semibold px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white transition duration-300 ease-in-out"
+                className="px-4 py-2 font-semibold text-blue-500 transition duration-300 ease-in-out bg-white rounded-lg hover:bg-red-600 hover:text-white"
               >
                 Close
               </Link>

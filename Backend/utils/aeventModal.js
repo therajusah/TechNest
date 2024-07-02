@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    additionalInfo: { type: String },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  imageUrl: { type: String, required: true } 
 });
 
-module.exports = mongoose.model("Event", eventSchema);
+module.exports = mongoose.model('Event', eventSchema);

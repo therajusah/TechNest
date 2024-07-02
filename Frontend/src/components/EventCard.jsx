@@ -7,7 +7,7 @@ const EventCard = ({ event }) => {
   }
 
   return (
-    <div className="overflow-hidden transition duration-300 ease-in-out bg-red-500 rounded-md shadow-md hover:shadow-lg">
+    <div className="overflow-hidden transition duration-300 ease-in-out bg-white rounded-md shadow-md hover:shadow-lg">
       <img
         src={event.imageUrl}
         alt="Event"
@@ -16,11 +16,12 @@ const EventCard = ({ event }) => {
 
       <div className="p-4">
         <h2 className="mb-2 text-xl font-bold">{event.title}</h2>
+        <p className="text-gray-700">{event.description}</p>
       </div>
 
       <Link
-        to={`/event/${event.id}`}
-        className="block px-4 py-2 font-semibold transition duration-300 ease-in-out bg-white text-black-500 rounded-b-md hover:bg-blue-600 hover:text-white"
+        to={`/event/${event._id}`}
+        className="block px-4 py-2 font-semibold text-white transition duration-300 ease-in-out bg-blue-500 rounded-b-md hover:bg-blue-600"
       >
         View Details & Register
       </Link>
@@ -30,7 +31,7 @@ const EventCard = ({ event }) => {
 
 EventCard.propTypes = {
   event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    _id: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,

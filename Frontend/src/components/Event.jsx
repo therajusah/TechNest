@@ -1,32 +1,36 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Navbar from "./Navbar";
 import EventCard from "./EventCard";
 
 const Event = () => {
-  const event1 = {
-    id: 1,
-    title: "Frontend Freebird",
-    description: "Description of Event 1",
-    imageUrl:
-      "https://images.unsplash.com/photo-1611601322175-ef8ec8c85f01?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  };
+  const [events, setEvents] = useState([]);
 
-  const event2 = {
-    id: 2,
-    title: "Frontend Freebird 2",
-    description: "Description of Event 2",
-    imageUrl:
-      "https://images.unsplash.com/photo-1611601322175-ef8ec8c85f01?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  };
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/v2/events')
+      .then(response => {
+        const eventsWithImages = response.data.map(event => ({
+          ...event,
+          id: event._id, 
+          imageUrl: event.imageUrl
+        }));
+        setEvents(eventsWithImages);
+      })
+      .catch(error => {
+        console.error('Error fetching events:', error);
+      });
+  }, []);
 
   return (
     <>
       <Navbar />
-      <div className="h-full w-full">
-        <div className="flex items-center justify-center flex-col p-5">
+      <div className="w-full h-full">
+        <div className="flex flex-col items-center justify-center p-5">
           <h1 className="text-4xl font-bold">Upcoming Events</h1>
           <div className="flex flex-wrap justify-center gap-10 mt-5">
-            <EventCard event={event1} />
-            <EventCard event={event2} />
+            {events.map(event => (
+              <EventCard key={event.id} event={event} />
+            ))}
           </div>
         </div>
       </div>

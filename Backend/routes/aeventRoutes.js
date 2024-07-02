@@ -4,8 +4,8 @@ const Event = require("../utils/aeventModal");
 
 router.post("/admin/events", async (req, res) => {
   try {
-    const { title, description, additionalInfo } = req.body;
-    const newEvent = await Event.create({ title, description, additionalInfo });
+    const { title, description, imageUrl } = req.body;
+    const newEvent = await Event.create({ title, description, imageUrl });
     res.status(201).json(newEvent);
   } catch (error) {
     console.error("Error creating event:", error);
@@ -13,12 +13,35 @@ router.post("/admin/events", async (req, res) => {
   }
 });
 
+router.get("/events", async (req, res) => {
+  try {
+    const events = await Event.find();
+    res.json(events);
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    res.status(500).json({ message: "Failed to fetch events" });
+  }
+});
+
+router.get("/events/:eventId", async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.eventId);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+    res.json(event);
+  } catch (error) {
+    console.error("Error fetching event:", error);
+    res.status(500).json({ message: "Failed to fetch event" });
+  }
+});
+
 router.put("/admin/events/:eventId", async (req, res) => {
   try {
-    const { title, description, additionalInfo } = req.body;
+    const { title, description, imageUrl } = req.body;
     const updatedEvent = await Event.findByIdAndUpdate(
       req.params.eventId,
-      { title, description, additionalInfo },
+      { title, description, imageUrl },
       { new: true }
     );
     if (!updatedEvent) {
