@@ -63,12 +63,16 @@ const EventDetails = () => {
           >
             Register for Event
           </button>
-          <Link
-            to={`/event/${event._id}/rulebook`}
-            className="px-4 py-2 ml-4 font-semibold text-blue-500 transition duration-300 ease-in-out bg-white rounded-lg hover:bg-blue-600 hover:text-white"
-          >
-            View Rulebook
-          </Link>
+          {event.rulebookUrl && (
+            <a
+              href={event.rulebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 ml-4 font-semibold text-blue-500 transition duration-300 ease-in-out bg-white rounded-lg hover:bg-blue-600 hover:text-white"
+            >
+              View Rulebook
+            </a>
+          )}
         </div>
       )}
 

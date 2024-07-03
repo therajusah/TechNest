@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AdminPanel = () => {
@@ -8,6 +8,7 @@ const AdminPanel = () => {
   const [currentEvent, setCurrentEvent] = useState({
     id: '',
     imageUrl: '',
+    rulebookUrl: '',
     title: '',
     description: ''
   });
@@ -36,7 +37,7 @@ const AdminPanel = () => {
       .then(response => {
         setEvents([...events, response.data]);
         setShowForm(false);
-        setCurrentEvent({ id: '', imageUrl: '', title: '', description: '' });
+        setCurrentEvent({ id: '', imageUrl: '', rulebookUrl: '', title: '', description: '' });
         toast.success('Event added successfully!');
       })
       .catch(error => {
@@ -51,7 +52,7 @@ const AdminPanel = () => {
         setEvents(events.map(event => (event._id === id ? response.data : event)));
         setIsEditing(false);
         setShowForm(false);
-        setCurrentEvent({ id: '', imageUrl: '', title: '', description: '' });
+        setCurrentEvent({ id: '', imageUrl: '', rulebookUrl: '', title: '', description: '' });
         toast.success('Event updated successfully!');
       })
       .catch(error => {
@@ -109,6 +110,14 @@ const AdminPanel = () => {
               name="imageUrl"
               placeholder="Image URL"
               value={currentEvent.imageUrl}
+              onChange={handleInputChange}
+              className="w-full p-2 mb-2 border"
+            />
+            <input
+              type="text"
+              name="rulebookUrl"
+              placeholder="Rulebook URL"
+              value={currentEvent.rulebookUrl}
               onChange={handleInputChange}
               className="w-full p-2 mb-2 border"
             />

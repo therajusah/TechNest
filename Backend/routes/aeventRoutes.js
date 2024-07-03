@@ -4,8 +4,8 @@ const Event = require("../utils/aeventModal");
 
 router.post("/admin/events", async (req, res) => {
   try {
-    const { title, description, imageUrl } = req.body;
-    const newEvent = await Event.create({ title, description, imageUrl });
+    const { title, description, imageUrl, rulebookUrl } = req.body;
+    const newEvent = await Event.create({ title, description, imageUrl, rulebookUrl });
     res.status(201).json(newEvent);
   } catch (error) {
     console.error("Error creating event:", error);
@@ -38,10 +38,11 @@ router.get("/events/:eventId", async (req, res) => {
 
 router.put("/admin/events/:eventId", async (req, res) => {
   try {
-    const { title, description, imageUrl } = req.body;
+    const { title, description, imageUrl, rulebookUrl } = req.body;
+    const updatedFields = { title, description, imageUrl, rulebookUrl };
     const updatedEvent = await Event.findByIdAndUpdate(
       req.params.eventId,
-      { title, description, imageUrl },
+      updatedFields,
       { new: true }
     );
     if (!updatedEvent) {
