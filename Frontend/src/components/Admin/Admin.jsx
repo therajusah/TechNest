@@ -14,6 +14,7 @@ const AdminPanel = () => {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false); 
 
   const formRef = useRef(null);
 
@@ -39,6 +40,7 @@ const AdminPanel = () => {
         setShowForm(false);
         setCurrentEvent({ id: '', imageUrl: '', rulebookUrl: '', title: '', description: '' });
         toast.success('Event added successfully!');
+        setSidebarOpen(false); 
       })
       .catch(error => {
         console.error('Error adding event:', error);
@@ -54,6 +56,7 @@ const AdminPanel = () => {
         setShowForm(false);
         setCurrentEvent({ id: '', imageUrl: '', rulebookUrl: '', title: '', description: '' });
         toast.success('Event updated successfully!');
+        setSidebarOpen(false); 
       })
       .catch(error => {
         console.error('Error updating event:', error);
@@ -79,23 +82,48 @@ const AdminPanel = () => {
     }
   };
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="flex items-center justify-between p-4 bg-orange-600">
-        <div className="text-lg font-bold text-white">Admin Panel</div>
-        <div className="flex space-x-4">
-          <a href="/admin" className="text-white">Home</a>
-          <a href="/profile" className="text-white">Profile</a>
-        </div>
-      </nav>
+      {/* Sidebar */}
+      <div className={`fixed left-0 top-0 h-full bg-gray-800 text-white p-4 w-1/5 ${sidebarOpen ? 'block' : 'hidden'}`}>
+        <h2 className="mb-4 text-xl font-bold">Navigation</h2>
+        <ul className="space-y-2">
+          <li>
+            <a href="/admin" className="block py-2">Manage Events</a>
+          </li>
+          <li>
+            <a href="/gallery" className="block py-2">Manage Gallery</a>
+          </li>
+        </ul>
+      </div>
 
-      <div className="container p-4 mx-auto">
+      {/* Main Content */}
+      <div className="container p-4 mx-auto ml-1/5">
+        <nav className="flex items-center justify-between p-4 bg-orange-600">
+          <div className="text-lg font-bold text-white">Admin Panel</div>
+          <button onClick={toggleSidebar} className="text-white focus:outline-none">
+            {sidebarOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            )}
+          </button>
+        </nav>
+
         <h1 className="mb-4 text-2xl font-bold">Manage Events</h1>
 
         <button
           onClick={() => {
             setShowForm(!showForm);
-            if (!showForm) scrollFormIntoView(); 
+            if (!showForm) scrollFormIntoView();
           }}
           className="px-4 py-2 mb-4 text-white bg-blue-500 rounded"
         >
@@ -168,7 +196,7 @@ const AdminPanel = () => {
                     setCurrentEvent(event);
                     setIsEditing(true);
                     setShowForm(true);
-                    scrollFormIntoView(); // Scroll to form when editing
+                    scrollFormIntoView(); 
                   }}
                   className="px-4 py-2 text-white bg-yellow-500 rounded"
                 >

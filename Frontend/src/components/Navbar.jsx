@@ -5,21 +5,22 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="h-14 w-full flex bg-black items-center justify-between px-4">
+    <nav className="flex items-center justify-between w-full px-4 bg-black h-14">
       <div>
         <Link to="/" className="text-white">
           <h2 className="text-xl font-bold">TechNest</h2>
         </Link>
       </div>
 
-      <div className="hidden md:flex justify-center items-center space-x-8">
-        <ul className="flex space-x-16">
-          <li><Link to="/" className="text-white font-bold">Home</Link></li>
-          <li><Link to="/events" className="text-white font-bold">Event</Link></li>
-          <li><Link to="/brochure" className="text-white font-bold">Brochure</Link></li>
-          <li><Link to="/gallery" className="text-white font-bold">Gallery</Link></li>
-        </ul>
-      </div>
+      <div className="items-center justify-center hidden space-x-8 md:flex">
+  <ul className="flex px-16 space-x-16 text-1xl md:px-14">
+    <li><Link to="/" className="font-bold text-white hover:text-gray-300">Home</Link></li>
+    <li><Link to="/events" className="font-bold text-white hover:text-gray-300">Event</Link></li>
+    <li><Link to="/brochure" className="font-bold text-white hover:text-gray-300">Brochure</Link></li>
+    <li><Link to="/gallery" className="font-bold text-white hover:text-gray-300">Gallery</Link></li>
+  </ul>
+</div>
+
 
       <div className="md:hidden">
         <button
@@ -33,8 +34,8 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden absolute top-14 left-0 w-full bg-black text-white">
-          <ul className="flex flex-col items-center space-y-4 py-4">
+        <div className="absolute left-0 w-full text-white bg-black md:hidden top-14">
+          <ul className="flex flex-col items-center py-4 space-y-4">
             <li><Link to="/" className="font-bold">Home</Link></li>
             <li><Link to="/events" className="font-bold">Event</Link></li>
             <li><Link to="/brochure" className="font-bold">Brochure</Link></li>
@@ -43,11 +44,11 @@ const Navbar = () => {
         </div>
       )}
 
-      <div className="md:flex">
-        <Link to='/signup' className="border-gray-500 rounded-lg hover:bg-blue-600 border text-white font-semibold py-2 px-3">
+      {/* <div className="md:flex">
+        <Link to='/signup' className="px-3 py-2 font-semibold text-white border border-gray-500 rounded-lg hover:bg-blue-600">
           Sign up
         </Link>
-      </div>
+      </div> */}
     </nav>
   );
 };
