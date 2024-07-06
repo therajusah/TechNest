@@ -30,7 +30,7 @@ const Navbar = () => {
         {navItems.map((item) => (
           <li
             key={item.id}
-            className="p-4 m-2 duration-300 cursor-pointer hover:bg-blue-500 rounded-xl hover:text-white"
+            className="p-4 m-2 font-semibold duration-300 cursor-pointer hover:bg-blue-500 rounded-xl hover:text-white"
           >
             <Link to={item.url}>{item.text}</Link>
           </li>
