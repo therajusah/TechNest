@@ -1,55 +1,71 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [nav, setNav] = useState(false);
+
+  const handleNav = () => {
+    setNav(!nav);
+  };
+
+  // Array containing navigation items
+  const navItems = [
+    { id: 1, text: "Home", url: "/" },
+    { id: 2, text: "Events", url: "/events" },
+    { id: 3, text: "Gallery", url: "/gallery" },
+    { id: 4, text: "Brochure", url: "/brochure" },
+    // { id: 5, text: 'About', url:' /about'},
+  ];
 
   return (
-    <nav className="flex items-center justify-between w-full px-4 bg-black h-14">
-      <div>
-        <Link to="/" className="text-white">
-          <h2 className="text-xl font-bold">TechNest</h2>
-        </Link>
+    <div className="flex items-center justify-between h-20 max-w-full px-4 mx-auto text-white bg-black">
+      {/* Logo */}
+      <Link to="/">
+        <h1 className="w-full text-3xl font-bold text-blue-500 hover:text-blue-300">TechNest</h1>
+      </Link>
+
+      {/* Desktop Navigation */}
+      <ul className="hidden md:flex">
+        {navItems.map((item) => (
+          <li
+            key={item.id}
+            className="p-4 m-2 duration-300 cursor-pointer hover:bg-blue-500 rounded-xl hover:text-white"
+          >
+            <Link to={item.url}>{item.text}</Link>
+          </li>
+        ))}
+      </ul>
+
+      {/* Mobile Navigation Icon */}
+      <div onClick={handleNav} className="block md:hidden">
+        {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
       </div>
 
-      <div className="items-center justify-center hidden space-x-8 md:flex">
-  <ul className="flex px-16 space-x-16 text-1xl md:px-14">
-    <li><Link to="/" className="font-bold text-white hover:text-gray-300">Home</Link></li>
-    <li><Link to="/events" className="font-bold text-white hover:text-gray-300">Event</Link></li>
-    <li><Link to="/brochure" className="font-bold text-white hover:text-gray-300">Brochure</Link></li>
-    <li><Link to="/gallery" className="font-bold text-white hover:text-gray-300">Gallery</Link></li>
-  </ul>
-</div>
-
-
-      <div className="md:hidden">
-        <button
-          className="text-white focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-          </svg>
-        </button>
-      </div>
-
-      {isOpen && (
-        <div className="absolute left-0 w-full text-white bg-black md:hidden top-14">
-          <ul className="flex flex-col items-center py-4 space-y-4">
-            <li><Link to="/" className="font-bold">Home</Link></li>
-            <li><Link to="/events" className="font-bold">Event</Link></li>
-            <li><Link to="/brochure" className="font-bold">Brochure</Link></li>
-            <li><Link to="/gallery" className="font-bold">Gallery</Link></li>
-          </ul>
-        </div>
-      )}
-
-      {/* <div className="md:flex">
-        <Link to='/signup' className="px-3 py-2 font-semibold text-white border border-gray-500 rounded-lg hover:bg-blue-600">
-          Sign up
+      {/* Mobile Navigation Menu */}
+      <ul
+        className={
+          nav
+            ? "fixed md:hidden left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-500 transform translate-x-0"
+            : "ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]"
+        }
+      >
+        {/* Mobile Logo */}
+        <Link to="/">
+          <h1 className="w-full m-4 text-3xl font-bold text-blue-500">TechNest</h1>
         </Link>
-      </div> */}
-    </nav>
+
+        {/* Mobile Navigation Items */}
+        {navItems.map((item) => (
+          <li
+            key={item.id}
+            className="p-4 duration-300 border-b border-gray-600 cursor-pointer rounded-xl hover:bg-blue-500 hover:text-white"
+          >
+            <Link to={item.url}>{item.text}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
