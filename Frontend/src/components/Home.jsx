@@ -6,7 +6,7 @@ const Home = () => {
       <Navbar />
       <div className="container px-4 py-16 mx-auto text-center">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="mb-8 text-5xl font-bold text-white">
+          <h1 className="mb-8 text-4xl font-bold text-white">
             Hey, Welcome to TechNest Technical CLub
           </h1>
           <p className="text-lg text-white">
