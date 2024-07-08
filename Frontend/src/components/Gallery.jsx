@@ -1,6 +1,7 @@
 import  { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
@@ -43,6 +44,7 @@ const Gallery = () => {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

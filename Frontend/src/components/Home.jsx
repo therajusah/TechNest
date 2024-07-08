@@ -1,6 +1,7 @@
 import { BiRightArrowAlt } from "react-icons/bi";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
 
 const Home = () => {
   return (
@@ -9,7 +10,7 @@ const Home = () => {
       <div className="container px-4 py-16 mx-auto text-center">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-6xl font-bold text-black mt-9">
-            Hey, Welcome to TechNest Technical CLub
+            Hey, Welcome to TechNest Technical Club
           </h1>
           {/* <p className="text-lg text-white">
         🚀 Join us for an electrifying TechFest at Supaul College of Engineering! <br />🌟 Calling all tech enthusiasts! Prepare to ignite your passion for innovation and collaboration at our upcoming TechFest. 
@@ -30,6 +31,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
 import EventCard from "./EventCard";
+import Footer from "./Footer";
 
 const Event = () => {
   const [events, setEvents] = useState([]);
@@ -34,6 +35,7 @@ const Event = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
