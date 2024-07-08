@@ -54,31 +54,31 @@ const Footer = () => {
             <div className="flex justify-center md:justify-end">
               <a
                 href="#"
-                className="mr-2 text-black md:mr-4 hover:text-gray-400"
+                className="mr-2 text-black md:mr-4 hover:text-gray-700"
                 target="_blank"
               >
-                <AiFillLinkedin size={24} />
+                <AiFillLinkedin size={26} />
               </a>
               <a
                 href="#"
-                className="mr-2 text-black md:mr-4 hover:text-gray-400"
+                className="mr-2 text-black md:mr-4 hover:text-gray-700"
                 target="_blank"
               >
-                <AiFillInstagram size={24} />
+                <AiFillInstagram size={26} />
               </a>
               <a
                 href="#"
-                className="mr-2 text-black md:mr-4 hover:text-gray-400"
+                className="mr-2 text-black md:mr-4 hover:text-gray-700"
                 target="_blank"
               >
-                <AiFillFacebook size={24} />
+                <AiFillFacebook size={26} />
               </a>
               <a
                 href="#"
-                className="mr-2 text-black md:mr-4 hover:text-gray-400"
+                className="mr-2 text-black md:mr-4 hover:text-gray-700"
                 target="_blank"
               >
-                <AiFillYoutube size={24} />
+                <AiFillYoutube size={26} />
               </a>
             </div>
           </div>
