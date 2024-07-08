@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import SmoothScrollWrapper from "./components/utils/SmoothScrollWrapper";
 import Home from "./components/Home";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
@@ -9,11 +10,10 @@ import Gallery from "./components/Gallery";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const App = () => {
   return (
     <Router>
-      <div>
+      <SmoothScrollWrapper>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
@@ -24,7 +24,7 @@ const App = () => {
           <Route path="/gallery" element={<Gallery />} />
         </Routes>
         <ToastContainer />
-      </div>
+      </SmoothScrollWrapper>
     </Router>
   );
 };

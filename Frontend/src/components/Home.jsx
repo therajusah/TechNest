@@ -15,15 +15,16 @@ const Home = () => {
           </h1>
           <div className="flex items-center justify-center mt-10">
             <Link to="/events">
-              <motion.a
-                className="flex items-center px-5 py-2 space-x-2 text-white bg-black rounded-full text-md md:text-2xl hover:bg-white hover:text-black hover:border hover:border-black"
+              <motion.button
                 whileHover={{ scale: 1.1 }}
-                onHoverStart={() => {}}
-                onHoverEnd={() => {}}
+                className="flex items-center px-5 py-2 space-x-2 text-white bg-black rounded-full text-md md:text-2xl hover:bg-white hover:text-black hover:border hover:border-black"
               >
                 <span>Upcoming Events</span>
-                <BiRightArrowAlt size={24} className="ml-2 transition duration-300 group-hover:translate-x-1" />
-              </motion.a>
+                <BiRightArrowAlt
+                  size={24}
+                  className="ml-2 transition duration-300 group-hover:translate-x-1"
+                />
+              </motion.button>
             </Link>
           </div>
         </div>
