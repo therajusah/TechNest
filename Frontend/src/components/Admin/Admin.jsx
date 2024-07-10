@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ManageGallery from './ManageGallery';
 
 const AdminPanel = () => {
   const [events, setEvents] = useState([]);
@@ -14,9 +15,11 @@ const AdminPanel = () => {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false); 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activePage, setActivePage] = useState('events');
 
   const formRef = useRef(null);
+  const sidebarRef = useRef(null);
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/v2/events')
@@ -26,6 +29,18 @@ const AdminPanel = () => {
       .catch(error => {
         console.error('Error fetching events:', error);
       });
+
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const handleInputChange = (e) => {
@@ -40,7 +55,7 @@ const AdminPanel = () => {
         setShowForm(false);
         setCurrentEvent({ id: '', imageUrl: '', rulebookUrl: '', title: '', description: '' });
         toast.success('Event added successfully!');
-        setSidebarOpen(false); 
+        setSidebarOpen(false);
       })
       .catch(error => {
         console.error('Error adding event:', error);
@@ -56,7 +71,7 @@ const AdminPanel = () => {
         setShowForm(false);
         setCurrentEvent({ id: '', imageUrl: '', rulebookUrl: '', title: '', description: '' });
         toast.success('Event updated successfully!');
-        setSidebarOpen(false); 
+        setSidebarOpen(false);
       })
       .catch(error => {
         console.error('Error updating event:', error);
@@ -86,38 +101,13 @@ const AdminPanel = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div className={`fixed left-0 top-0 h-full bg-gray-800 text-white p-4 w-1/5 ${sidebarOpen ? 'block' : 'hidden'}`}>
-        <h2 className="mb-4 text-xl font-bold">Navigation</h2>
-        <ul className="space-y-2">
-          <li>
-            <a href="/admin" className="block py-2">Manage Events</a>
-          </li>
-          <li>
-            <a href="/gallery" className="block py-2">Manage Gallery</a>
-          </li>
-        </ul>
-      </div>
+  const renderPageContent = () => {
+    if (activePage === 'gallery') {
+      return <ManageGallery />;
+    }
 
-      {/* Main Content */}
-      <div className="container p-4 mx-auto ml-1/5">
-        <nav className="flex items-center justify-between p-4 bg-orange-600">
-          <div className="text-lg font-bold text-white">Admin Panel</div>
-          <button onClick={toggleSidebar} className="text-white focus:outline-none">
-            {sidebarOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            )}
-          </button>
-        </nav>
-
+    return (
+      <>
         <h1 className="mb-4 text-2xl font-bold">Manage Events</h1>
 
         <button
@@ -196,7 +186,7 @@ const AdminPanel = () => {
                     setCurrentEvent(event);
                     setIsEditing(true);
                     setShowForm(true);
-                    scrollFormIntoView(); 
+                    scrollFormIntoView();
                   }}
                   className="px-4 py-2 text-white bg-yellow-500 rounded"
                 >
@@ -212,6 +202,43 @@ const AdminPanel = () => {
             </li>
           ))}
         </ul>
+      </>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <div ref={sidebarRef} className={`fixed left-0 top-0 h-full bg-gray-800 text-white p-4 w-1/5 ${sidebarOpen ? 'block' : 'hidden'}`}>
+        <h2 className="mb-4 text-xl font-bold">Navigation</h2>
+        <ul className="space-y-2">
+          <li>
+            <button onClick={() => setActivePage('events')} className="block w-full py-2 text-left">Manage Events</button>
+          </li>
+          <li>
+            <button onClick={() => setActivePage('gallery')} className="block w-full py-2 text-left">Manage Gallery</button>
+          </li>
+        </ul>
+      </div>
+
+      {/* Main Content */}
+      <div className="container p-4 mx-auto ml-1/5">
+        <nav className="flex items-center justify-between p-4 bg-orange-600">
+          <div className="text-lg font-bold text-white">Admin Panel</div>
+          <button onClick={toggleSidebar} className="text-white focus:outline-none">
+            {sidebarOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            )}
+          </button>
+        </nav>
+
+        {renderPageContent()}
       </div>
     </div>
   );
