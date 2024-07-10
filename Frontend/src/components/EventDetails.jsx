@@ -1,40 +1,71 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const EventDetails = () => {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    member1: '',
-    member2: '',
-    member3: '',
-    member4: '',
+    teamName: "",
+    teamLeadName: "",
+    email: "",
+    member1: "",
+    member2: "",
+    member3: "",
+    member4: "",
   });
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/v2/events/${id}`)
-      .then(response => {
+    const fetchEventDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/v2/events/${id}`
+        );
         setEvent(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching event details:', error);
-      });
+      } catch (error) {
+        console.error("Error fetching event details:", error);
+      }
+    };
+
+    fetchEventDetails();
   }, [id]);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    const { teamName, teamLeadName, email } = formData;
+    if (!teamName || !teamLeadName || !email) {
+      alert("Team Name, Team Lead Name, and Email are required.");
+      return;
+    }
+    axios
+      .post(`http://localhost:5000/api/v2/events/${id}/register`, formData)
+      .then((response) => {
+        console.log(response.data);
+        toast.success("Registration successful!");
+        setShowRegistrationForm(false);
+        setFormData({
+          teamName: "",
+          teamLeadName: "",
+          email: "",
+          member1: "",
+          member2: "",
+          member3: "",
+          member4: "",
+        });
+      })
+      .catch((error) => {
+        console.error("Error registering for event:", error);
+        toast.error("Failed to register.");
+      });
   };
 
   const showForm = () => {
@@ -47,7 +78,10 @@ const EventDetails = () => {
         <div className="p-4 text-white bg-gray-700 rounded-md shadow-md md:w-1/2">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold">{event.title}</h2>
-            <Link to="/events" className="text-lg text-white hover:text-gray-400">
+            <Link
+              to="/events"
+              className="text-lg text-white hover:text-gray-400"
+            >
               &#x2715;
             </Link>
           </div>
@@ -78,14 +112,25 @@ const EventDetails = () => {
 
       {showRegistrationForm && (
         <div className="p-4 text-black bg-gray-700 rounded-md shadow-md md:w-1/2 md:ml-4">
-          <h2 className="mb-4 text-2xl font-bold">Register for Event</h2>
+          <h2 className="mb-4 text-2xl font-bold text-white">
+            Register for Event
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="teamName"
+              value={formData.teamName}
               onChange={handleChange}
-              placeholder="Your Name"
+              placeholder="Team Name"
+              className="w-full px-3 py-2 border border-gray-300 rounded"
+              required
+            />
+            <input
+              type="text"
+              name="teamLeadName"
+              value={formData.teamLeadName}
+              onChange={handleChange}
+              placeholder="Team Lead Name"
               className="w-full px-3 py-2 border border-gray-300 rounded"
               required
             />

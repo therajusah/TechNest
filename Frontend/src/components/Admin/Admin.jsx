@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ManageGallery from './ManageGallery';
+import ManageParticipants from './ManageParticipants';
 
 const AdminPanel = () => {
   const [events, setEvents] = useState([]);
@@ -102,108 +103,110 @@ const AdminPanel = () => {
   };
 
   const renderPageContent = () => {
-    if (activePage === 'gallery') {
-      return <ManageGallery />;
-    }
+    switch (activePage) {
+      case 'gallery':
+        return <ManageGallery />;
+      case 'participants':
+        return <ManageParticipants />;
+      default:
+        return (
+          <>
+            <h1 className="mb-4 text-2xl font-bold">Manage Events</h1>
+            <button
+              onClick={() => {
+                setShowForm(!showForm);
+                if (!showForm) scrollFormIntoView();
+              }}
+              className="px-4 py-2 mb-4 text-white bg-blue-500 rounded"
+            >
+              {showForm ? 'Close Form' : 'Add Event'}
+            </button>
 
-    return (
-      <>
-        <h1 className="mb-4 text-2xl font-bold">Manage Events</h1>
-
-        <button
-          onClick={() => {
-            setShowForm(!showForm);
-            if (!showForm) scrollFormIntoView();
-          }}
-          className="px-4 py-2 mb-4 text-white bg-blue-500 rounded"
-        >
-          {showForm ? 'Close Form' : 'Add Event'}
-        </button>
-
-        {showForm && (
-          <div ref={formRef} className="p-4 mb-6 bg-white rounded shadow">
-            <h2 className="mb-4 text-xl">{isEditing ? 'Edit Event' : 'Add New Event'}</h2>
-            <input
-              type="text"
-              name="imageUrl"
-              placeholder="Image URL"
-              value={currentEvent.imageUrl}
-              onChange={handleInputChange}
-              className="w-full p-2 mb-2 border"
-            />
-            <input
-              type="text"
-              name="rulebookUrl"
-              placeholder="Rulebook URL"
-              value={currentEvent.rulebookUrl}
-              onChange={handleInputChange}
-              className="w-full p-2 mb-2 border"
-            />
-            <input
-              type="text"
-              name="title"
-              placeholder="Title"
-              value={currentEvent.title}
-              onChange={handleInputChange}
-              className="w-full p-2 mb-2 border"
-            />
-            <textarea
-              name="description"
-              placeholder="Description"
-              value={currentEvent.description}
-              onChange={handleInputChange}
-              className="w-full p-2 mb-2 border"
-            />
-            {isEditing ? (
-              <button
-                onClick={() => handleUpdateEvent(currentEvent._id)}
-                className="px-4 py-2 text-white bg-green-500 rounded"
-              >
-                Update Event
-              </button>
-            ) : (
-              <button
-                onClick={handleAddEvent}
-                className="px-4 py-2 text-white bg-blue-500 rounded"
-              >
-                Add Event
-              </button>
+            {showForm && (
+              <div ref={formRef} className="p-4 mb-6 bg-white rounded shadow">
+                <h2 className="mb-4 text-xl">{isEditing ? 'Edit Event' : 'Add New Event'}</h2>
+                <input
+                  type="text"
+                  name="imageUrl"
+                  placeholder="Image URL"
+                  value={currentEvent.imageUrl}
+                  onChange={handleInputChange}
+                  className="w-full p-2 mb-2 border"
+                />
+                <input
+                  type="text"
+                  name="rulebookUrl"
+                  placeholder="Rulebook URL"
+                  value={currentEvent.rulebookUrl}
+                  onChange={handleInputChange}
+                  className="w-full p-2 mb-2 border"
+                />
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  value={currentEvent.title}
+                  onChange={handleInputChange}
+                  className="w-full p-2 mb-2 border"
+                />
+                <textarea
+                  name="description"
+                  placeholder="Description"
+                  value={currentEvent.description}
+                  onChange={handleInputChange}
+                  className="w-full p-2 mb-2 border"
+                />
+                {isEditing ? (
+                  <button
+                    onClick={() => handleUpdateEvent(currentEvent._id)}
+                    className="px-4 py-2 text-white bg-green-500 rounded"
+                  >
+                    Update Event
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleAddEvent}
+                    className="px-4 py-2 text-white bg-blue-500 rounded"
+                  >
+                    Add Event
+                  </button>
+                )}
+              </div>
             )}
-          </div>
-        )}
 
-        <ul className="space-y-4">
-          {events.map(event => (
-            <li key={event._id} className="flex items-center justify-between p-4 bg-white rounded shadow">
-              <div>
-                <h2 className="mb-2 text-lg font-bold">{event.title}</h2>
-                <h4 className="mb-2 text-gray-600">{event.description}</h4>
-                <img src={event.imageUrl} alt={event.title} className="w-24 h-24" />
-              </div>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => {
-                    setCurrentEvent(event);
-                    setIsEditing(true);
-                    setShowForm(true);
-                    scrollFormIntoView();
-                  }}
-                  className="px-4 py-2 text-white bg-yellow-500 rounded"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteEvent(event._id)}
-                  className="px-4 py-2 text-white bg-red-500 rounded"
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </>
-    );
+            <ul className="space-y-4">
+              {events.map(event => (
+                <li key={event._id} className="flex items-center justify-between p-4 bg-white rounded shadow">
+                  <div>
+                    <h2 className="mb-2 text-lg font-bold">{event.title}</h2>
+                    <h4 className="mb-2 text-gray-600">{event.description}</h4>
+                    <img src={event.imageUrl} alt={event.title} className="w-24 h-24" />
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => {
+                        setCurrentEvent(event);
+                        setIsEditing(true);
+                        setShowForm(true);
+                        scrollFormIntoView();
+                      }}
+                      className="px-4 py-2 text-white bg-yellow-500 rounded"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteEvent(event._id)}
+                      className="px-4 py-2 text-white bg-red-500 rounded"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </>
+        );
+    }
   };
 
   return (
@@ -217,6 +220,9 @@ const AdminPanel = () => {
           </li>
           <li>
             <button onClick={() => setActivePage('gallery')} className="block w-full py-2 text-left">Manage Gallery</button>
+          </li>
+          <li>
+            <button onClick={() => setActivePage('participants')} className="block w-full py-2 text-left">Manage Participants</button>
           </li>
         </ul>
       </div>

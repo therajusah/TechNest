@@ -2,8 +2,8 @@ const express = require("express");
 const connectToMongoDB = require("./connection/conn");
 const userRoutes = require("./routes/userRoutes");
 const aeventRoutes = require("./routes/aeventRoutes");
-const participantRoutes = require("./routes/participantRoutes");
 const galleryRoutes = require("./routes/galleryRoutes");
+const registrationRoutes = require("./routes/registrationRoutes");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,9 +17,9 @@ connectToMongoDB()
     app.use(express.json());
 
     app.use("/api/v1", userRoutes);
-    app.use("/api/v1", participantRoutes);
     app.use("/api/v2", aeventRoutes);
     app.use("/api/v2", galleryRoutes);
+    app.use("/api/v2", registrationRoutes);
 
     app.get("/", (req, res) => {
       res.send("Hello World!");
