@@ -4,19 +4,20 @@ import Navbar from "./Navbar";
 import EventCard from "./EventCard";
 import Footer from "./Footer";
 import Loader from "./Loader"; 
+import { useConfig } from '../contexts/useConfig';
 
 const Event = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { apiUrl } = useConfig();
   useEffect(() => {
     fetchEvents();
-  }, []);
+  },);
 
   const fetchEvents = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/v2/events"
+        `${apiUrl}/api/v2/events`
       );
       const eventsWithImages = response.data.map((event) => ({
         ...event,

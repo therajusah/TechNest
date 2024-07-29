@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useConfig } from '../contexts/useConfig';
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -16,12 +17,12 @@ const EventDetails = () => {
     member4: "",
   });
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
-
+  const { apiUrl } = useConfig();
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v2/events/${id}`
+          `${apiUrl}/api/v2/events/${id}`
         );
         setEvent(response.data);
       } catch (error) {
@@ -30,7 +31,7 @@ const EventDetails = () => {
     };
 
     fetchEventDetails();
-  }, [id]);
+  }, [apiUrl, id]);
 
   const handleChange = (e) => {
     setFormData({
@@ -47,7 +48,7 @@ const EventDetails = () => {
       return;
     }
     axios
-      .post(`http://localhost:5000/api/v2/events/${id}/register`, formData)
+      .post(`${apiUrl}/api/v2/events/${id}/register`, formData)
       .then(() => {
         toast.success("Registration successful!");
         setShowRegistrationForm(false);

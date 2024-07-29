@@ -1,24 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { CSVLink } from "react-csv";
+import { useConfig } from "../../contexts/useConfig";
 
 const ManageParticipants = () => {
   const [registrations, setRegistrations] = useState([]);
+  const { apiUrl } = useConfig();
 
-  useEffect(() => {
-    fetchRegistrations();
-  }, []);
-
-  const fetchRegistrations = async () => {
+  const fetchRegistrations = useCallback(async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/v2/registrations"
-      );
+      const response = await axios.get(`${apiUrl}/api/v2/registrations`);
       setRegistrations(response.data);
     } catch (error) {
       console.error("Error fetching registrations:", error);
     }
-  };
+  }, [apiUrl]);
+
+  useEffect(() => {
+    fetchRegistrations();
+  }, [fetchRegistrations]);
 
   const headers = [
     { label: "Team Name", key: "teamName" },

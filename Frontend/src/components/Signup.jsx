@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { toast } from 'react-toastify';
-
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
+import { useConfig } from '../contexts/useConfig';
 const Signup = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [adminSecret, setAdminSecret] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [adminSecret, setAdminSecret] = useState("");
+  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
-
+  const { apiUrl } = useConfig();
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
-      navigate('/admin'); 
+      navigate("/admin");
     }
   }, [navigate]);
 
@@ -30,46 +30,47 @@ const Signup = () => {
   const handleAdminSecretChange = (e) => setAdminSecret(e.target.value);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword(!showConfirmPassword);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     if (!adminSecret) {
-      setError('Admin secret is required');
+      setError("Admin secret is required");
       return;
     }
 
-    setError('');
+    setError("");
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch(`${apiUrl}/api/v1/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, name, password, adminSecret }),
       });
 
       if (response.ok) {
-        toast.success('Sign up successful!');
-        navigate('/login');
+        toast.success("Sign up successful!");
+        navigate("/login");
       } else {
         const data = await response.json();
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error('An error occurred. Please try again.');
+      toast.error("An error occurred. Please try again.");
     }
 
-    setEmail('');
-    setName('');
-    setPassword('');
-    setConfirmPassword('');
-    setAdminSecret('');
+    setEmail("");
+    setName("");
+    setPassword("");
+    setConfirmPassword("");
+    setAdminSecret("");
   };
 
   return (
@@ -83,7 +84,10 @@ const Signup = () => {
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Name
               </label>
               <input
@@ -98,7 +102,10 @@ const Signup = () => {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 mt-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 text-gray-900 mt-4"
+              >
                 Email address
               </label>
               <input
@@ -114,14 +121,17 @@ const Signup = () => {
             </div>
 
             <div className="relative mt-4">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Password
               </label>
               <div className="flex">
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   required
                   autoComplete="new-password"
                   value={password}
@@ -139,14 +149,17 @@ const Signup = () => {
             </div>
 
             <div className="relative mt-4">
-              <label htmlFor="confirmPassword" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Confirm Password
               </label>
               <div className="flex">
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   required
                   autoComplete="new-password"
                   value={confirmPassword}
@@ -158,13 +171,18 @@ const Signup = () => {
                   onClick={toggleConfirmPasswordVisibility}
                   className="ml-2 flex items-center justify-center h-10 w-10 rounded-md text-gray-400 bg-transparent focus:outline-none hover:text-gray-600"
                 >
-                  <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                  <FontAwesomeIcon
+                    icon={showConfirmPassword ? faEyeSlash : faEye}
+                  />
                 </button>
               </div>
             </div>
 
             <div className="mt-4">
-              <label htmlFor="adminSecret" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="adminSecret"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Admin Secret
               </label>
               <input
@@ -191,8 +209,11 @@ const Signup = () => {
           </form>
 
           <p className="mt-4 text-center text-sm text-gray-500">
-            Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-gray-700 hover:text-black">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="font-semibold text-gray-700 hover:text-black"
+            >
               Log in here
             </Link>
           </p>

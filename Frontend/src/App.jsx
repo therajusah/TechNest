@@ -10,23 +10,29 @@ import Gallery from "./components/Gallery";
 import PrivateRoute from "./components/Admin/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ConfigProvider } from "./contexts/ConfigContext";
 
 const App = () => {
   return (
-    <Router>
-      <SmoothScrollWrapper>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/events" element={<Event />} />
-          <Route path="/event/:id" element={<EventDetails />} />
-          <Route path="/admin" element={<PrivateRoute element={<AdminPanel />} />} />
-          <Route path="/gallery" element={<Gallery />} />
-        </Routes>
-        <ToastContainer />
-      </SmoothScrollWrapper>
-    </Router>
+    <ConfigProvider>
+      <Router>
+        <SmoothScrollWrapper>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/events" element={<Event />} />
+            <Route path="/event/:id" element={<EventDetails />} />
+            <Route
+              path="/admin"
+              element={<PrivateRoute element={<AdminPanel />} />}
+            />
+            <Route path="/gallery" element={<Gallery />} />
+          </Routes>
+          <ToastContainer />
+        </SmoothScrollWrapper>
+      </Router>
+    </ConfigProvider>
   );
 };
 

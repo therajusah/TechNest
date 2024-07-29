@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useConfig } from '../../contexts/useConfig';
 import ManageGallery from './ManageGallery';
 import ManageParticipants from './ManageParticipants';
 
@@ -21,9 +22,10 @@ const AdminPanel = () => {
 
   const formRef = useRef(null);
   const sidebarRef = useRef(null);
+  const { apiUrl } = useConfig();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/v2/events')
+    axios.get(`${apiUrl}/api/v2/events`)
       .then(response => {
         setEvents(response.data);
       })
@@ -42,7 +44,7 @@ const AdminPanel = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [apiUrl]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -50,7 +52,7 @@ const AdminPanel = () => {
   };
 
   const handleAddEvent = () => {
-    axios.post('http://localhost:5000/api/v2/admin/events', currentEvent)
+    axios.post(`${apiUrl}/api/v2/admin/events`, currentEvent)
       .then(response => {
         setEvents([...events, response.data]);
         setShowForm(false);
@@ -64,7 +66,7 @@ const AdminPanel = () => {
   };
 
   const handleUpdateEvent = (id) => {
-    axios.put(`http://localhost:5000/api/v2/admin/events/${id}`, currentEvent)
+    axios.put(`${apiUrl}/api/v2/admin/events/${id}`, currentEvent)
       .then(response => {
         setEvents(events.map(event => (event._id === id ? response.data : event)));
         setIsEditing(false);
@@ -79,7 +81,7 @@ const AdminPanel = () => {
   };
 
   const handleDeleteEvent = (id) => {
-    axios.delete(`http://localhost:5000/api/v2/admin/events/${id}`)
+    axios.delete(`${apiUrl}/api/v2/admin/events/${id}`)
       .then(() => {
         setEvents(events.filter(event => event._id !== id));
         toast.success('Event deleted successfully!');

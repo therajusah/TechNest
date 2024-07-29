@@ -1,28 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import Loader from "./Loader"; 
+import Loader from "./Loader";
 import { toast } from "react-toastify";
+import { useConfig } from '../contexts/useConfig';
+
 const Gallery = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { apiUrl } = useConfig();
+
+  const fetchImages = useCallback(async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/v2/admin/gallery`);
+      setImages(response.data);
+      setLoading(false);
+    } catch (error) {
+      toast.error("Error fetching images");
+      setLoading(false);
+    }
+  }, [apiUrl]);
+
   useEffect(() => {
     fetchImages();
-  }, []);
-
-  const fetchImages = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/api/v2/admin/gallery"
-      );
-      setImages(response.data);
-      setLoading(false); 
-    } catch (error) {
-      toast.error("Error fetching images:", error);
-      setLoading(false); 
-    }
-  };
+  }, [fetchImages]);
 
   return (
     <div>

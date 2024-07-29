@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useConfig } from '../../contexts/useConfig';
 const ManageGallery = () => {
   const [images, setImages] = useState([]);
   const [currentImage, setCurrentImage] = useState({
@@ -14,15 +14,16 @@ const ManageGallery = () => {
   const [showForm, setShowForm] = useState(false);
 
   const formRef = useRef(null);
+  const { apiUrl } = useConfig();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/v2/admin/gallery')
+    axios.get(`${apiUrl}/api/v2/admin/gallery`)
       .then(response => {
         setImages(response.data);
       })
       .catch(() => {
       });
-  }, []);
+  }, [apiUrl]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +31,7 @@ const ManageGallery = () => {
   };
 
   const handleAddImage = () => {
-    axios.post('http://localhost:5000/api/v2/admin/gallery', currentImage)
+    axios.post(`${apiUrl}/api/v2/admin/gallery`, currentImage)
       .then(response => {
         setImages([...images, response.data]);
         setShowForm(false);
@@ -44,7 +45,7 @@ const ManageGallery = () => {
   };
 
   const handleUpdateImage = (id) => {
-    axios.put(`http://localhost:5000/api/v2/admin/gallery/${id}`, currentImage)
+    axios.put(`${apiUrl}/api/v2/admin/gallery/${id}`, currentImage)
       .then(response => {
         setImages(images.map(image => (image._id === id ? response.data : image)));
         setIsEditing(false);
@@ -59,7 +60,7 @@ const ManageGallery = () => {
   };
 
   const handleDeleteImage = (id) => {
-    axios.delete(`http://localhost:5000/api/v2/admin/gallery/${id}`)
+    axios.delete(`${apiUrl}/api/v2/admin/gallery/${id}`)
       .then(() => {
         setImages(images.filter(image => image._id !== id));
         toast.success('Image deleted successfully!');
