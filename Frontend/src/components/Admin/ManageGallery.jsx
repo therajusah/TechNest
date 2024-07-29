@@ -20,8 +20,7 @@ const ManageGallery = () => {
       .then(response => {
         setImages(response.data);
       })
-      .catch(error => {
-        console.error('Error fetching images:', error);
+      .catch(() => {
       });
   }, []);
 
@@ -38,8 +37,8 @@ const ManageGallery = () => {
         setCurrentImage({ id: '', imageUrl: '', title: '' });
         toast.success('Image added successfully!');
       })
-      .catch(error => {
-        console.error('Error adding image:', error);
+      .catch(() => {
+
         toast.error('Failed to add image.');
       });
   };
@@ -53,8 +52,8 @@ const ManageGallery = () => {
         setCurrentImage({ id: '', imageUrl: '', title: '' });
         toast.success('Image updated successfully!');
       })
-      .catch(error => {
-        console.error('Error updating image:', error);
+      .catch(() => {
+
         toast.error('Failed to update image.');
       });
   };
@@ -65,8 +64,7 @@ const ManageGallery = () => {
         setImages(images.filter(image => image._id !== id));
         toast.success('Image deleted successfully!');
       })
-      .catch(error => {
-        console.error('Error deleting image:', error);
+      .catch(() => {
         toast.error('Failed to delete image.');
       });
   };

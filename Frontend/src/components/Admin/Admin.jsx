@@ -58,8 +58,7 @@ const AdminPanel = () => {
         toast.success('Event added successfully!');
         setSidebarOpen(false);
       })
-      .catch(error => {
-        console.error('Error adding event:', error);
+      .catch(() => {
         toast.error('Failed to add event.');
       });
   };
@@ -74,8 +73,7 @@ const AdminPanel = () => {
         toast.success('Event updated successfully!');
         setSidebarOpen(false);
       })
-      .catch(error => {
-        console.error('Error updating event:', error);
+      .catch(() => {
         toast.error('Failed to update event.');
       });
   };
@@ -86,8 +84,7 @@ const AdminPanel = () => {
         setEvents(events.filter(event => event._id !== id));
         toast.success('Event deleted successfully!');
       })
-      .catch(error => {
-        console.error('Error deleting event:', error);
+      .catch(() => {
         toast.error('Failed to delete event.');
       });
   };

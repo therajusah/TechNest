@@ -25,7 +25,7 @@ const EventDetails = () => {
         );
         setEvent(response.data);
       } catch (error) {
-        console.error("Error fetching event details:", error);
+        toast.error("Error fetching event details:", error);
       }
     };
 
@@ -48,8 +48,7 @@ const EventDetails = () => {
     }
     axios
       .post(`http://localhost:5000/api/v2/events/${id}/register`, formData)
-      .then((response) => {
-        console.log(response.data);
+      .then(() => {
         toast.success("Registration successful!");
         setShowRegistrationForm(false);
         setFormData({
@@ -62,8 +61,7 @@ const EventDetails = () => {
           member4: "",
         });
       })
-      .catch((error) => {
-        console.error("Error registering for event:", error);
+      .catch(() => {
         toast.error("Failed to register.");
       });
   };

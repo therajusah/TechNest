@@ -1,12 +1,13 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SmoothScrollWrapper from "./components/utils/SmoothScrollWrapper";
 import Home from "./components/Home";
 import Signup from "./components/Signup";
-import Login from "./components/Login";
+import Login from "./components/Signin";
 import Event from "./components/Event";
 import EventDetails from "./components/EventDetails";
 import AdminPanel from "./components/Admin/Admin";
 import Gallery from "./components/Gallery";
+import PrivateRoute from "./components/Admin/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -20,7 +21,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/events" element={<Event />} />
           <Route path="/event/:id" element={<EventDetails />} />
-          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/admin" element={<PrivateRoute element={<AdminPanel />} />} />
           <Route path="/gallery" element={<Gallery />} />
         </Routes>
         <ToastContainer />

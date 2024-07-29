@@ -26,7 +26,6 @@ const Event = () => {
       setEvents(eventsWithImages);
       setLoading(false); 
     } catch (error) {
-      console.error("Error fetching events:", error);
       setLoading(false); 
     }
   };

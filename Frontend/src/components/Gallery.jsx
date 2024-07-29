@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Loader from "./Loader"; 
+import { toast } from "react-toastify";
 const Gallery = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +19,7 @@ const Gallery = () => {
       setImages(response.data);
       setLoading(false); 
     } catch (error) {
-      console.error("Error fetching images:", error);
+      toast.error("Error fetching images:", error);
       setLoading(false); 
     }
   };

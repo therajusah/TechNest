@@ -1,38 +1,38 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [adminSecret, setAdminSecret] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/admin'); 
+    }
+  }, [navigate]);
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handleNameChange = (e) => setName(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
+  const handleAdminSecretChange = (e) => setAdminSecret(e.target.value);
 
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-  };
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -40,73 +40,165 @@ const Signup = () => {
       return;
     }
 
+    if (!adminSecret) {
+      setError('Admin secret is required');
+      return;
+    }
 
     setError('');
 
-    // Have to add signup logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
+    try {
+      const response = await fetch('http://localhost:5000/api/v1/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name, password, adminSecret }),
+      });
 
-  
+      if (response.ok) {
+        toast.success('Sign up successful!');
+        navigate('/login');
+      } else {
+        const data = await response.json();
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+    }
+
     setEmail('');
+    setName('');
     setPassword('');
     setConfirmPassword('');
+    setAdminSecret('');
   };
 
   return (
-    <div className="h-screen w-full">
+    <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center h-full w-full">
-        <h1 className="text-3xl font-bold">Sign Up</h1>
-        <form className="flex flex-col items-center justify-center w-1/2" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Enter Email"
-            className="border-2 border-gray-300 rounded-md p-2 mt-4 w-full"
-            value={email}
-            onChange={handleEmailChange}
-          />
-          <div className="relative w-full mt-4">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              className="border-2 border-gray-300 rounded-md p-2 w-full"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-            <FontAwesomeIcon
-              icon={showPassword ? faEyeSlash : faEye}
-              className="absolute top-3 right-3 cursor-pointer"
-              onClick={togglePasswordVisibility}
-            />
-          </div>
-          <div className="relative w-full mt-4">
-            <input
-              type={showConfirmPassword ? 'text' : 'password'}
-              placeholder="Confirm Password"
-              className="border-2 border-gray-300 rounded-md p-2 w-full"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-            />
-            <FontAwesomeIcon
-              icon={showConfirmPassword ? faEyeSlash : faEye}
-              className="absolute top-3 right-3 cursor-pointer"
-              onClick={toggleConfirmPasswordVisibility}
-            />
-          </div>
-          {error && <p className="text-red-500">{error}</p>}
-          <button type="submit" className="bg-blue-500 text-white rounded-md p-2 mt-4 w-full">
-            Sign Up
-          </button>
-        </form>
-        <Link to="/login" className="mt-4">
-          <button className="bg-green-500 text-white rounded-md p-2 w-full">
-            Click to Login
-          </button>
-        </Link>
+      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-50">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            Sign Up for an Admin Account
+          </h2>
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                value={name}
+                onChange={handleNameChange}
+                className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 mt-4">
+                Email address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={handleEmailChange}
+                className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+
+            <div className="relative mt-4">
+              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                Password
+              </label>
+              <div className="flex">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  autoComplete="new-password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="ml-2 flex items-center justify-center h-10 w-10 rounded-md text-gray-400 bg-transparent focus:outline-none hover:text-gray-600"
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </button>
+              </div>
+            </div>
+
+            <div className="relative mt-4">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium leading-6 text-gray-900">
+                Confirm Password
+              </label>
+              <div className="flex">
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  required
+                  autoComplete="new-password"
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                  className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+                <button
+                  type="button"
+                  onClick={toggleConfirmPasswordVisibility}
+                  className="ml-2 flex items-center justify-center h-10 w-10 rounded-md text-gray-400 bg-transparent focus:outline-none hover:text-gray-600"
+                >
+                  <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <label htmlFor="adminSecret" className="block text-sm font-medium leading-6 text-gray-900">
+                Admin Secret
+              </label>
+              <input
+                id="adminSecret"
+                name="adminSecret"
+                type="text"
+                required
+                value={adminSecret}
+                onChange={handleAdminSecretChange}
+                className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+
+            {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+
+            <div className="mt-4">
+              <button
+                type="submit"
+                className="w-full bg-black py-2 px-4 rounded-md shadow-sm text-sm font-semibold text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
+              >
+                Sign Up
+              </button>
+            </div>
+          </form>
+
+          <p className="mt-4 text-center text-sm text-gray-500">
+            Already have an account?{' '}
+            <Link to="/login" className="font-semibold text-gray-700 hover:text-black">
+              Log in here
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
