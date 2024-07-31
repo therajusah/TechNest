@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SmoothScrollWrapper from "./components/utils/SmoothScrollWrapper";
 import Home from "./components/Home";
 import Signup from "./components/Signup";
-import Login from "./components/Signin";
+import Signin from "./components/Signin";
 import Event from "./components/Event";
 import EventDetails from "./components/EventDetails";
 import AdminPanel from "./components/Admin/Admin";
@@ -20,7 +20,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/signin" element={<Signin />} />
             <Route path="/events" element={<Event />} />
             <Route path="/event/:id" element={<EventDetails />} />
             <Route
