@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
-import { useConfig } from '../contexts/useConfig';
+import { useConfig } from "../contexts/useConfig";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -57,7 +57,7 @@ const Signup = () => {
 
       if (response.ok) {
         toast.success("Sign up successful!");
-        navigate("/signin");
+        navigate("/login");
       } else {
         const data = await response.json();
         toast.error(data.message);
@@ -211,7 +211,7 @@ const Signup = () => {
           <p className="mt-4 text-center text-sm text-gray-500">
             Already have an account?{" "}
             <Link
-              to="/signin"
+              to="/login"
               className="font-semibold text-gray-700 hover:text-black"
             >
               Log in here
