@@ -10,7 +10,7 @@ import PrivateRoute from "./components/Admin/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ConfigProvider } from "./contexts/ConfigContext";
-import Signin from "./components/Signin";
+import Login from "./components/Login";
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/signin" element={<Signin />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/events" element={<Event />} />
             <Route path="/event/:id" element={<EventDetails />} />
             <Route
