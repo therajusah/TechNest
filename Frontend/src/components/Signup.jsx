@@ -57,7 +57,7 @@ const Signup = () => {
 
       if (response.ok) {
         toast.success("Sign up successful!");
-        navigate("/login");
+        navigate("/signin");
       } else {
         const data = await response.json();
         toast.error(data.message);
@@ -211,7 +211,7 @@ const Signup = () => {
           <p className="mt-4 text-center text-sm text-gray-500">
             Already have an account?{" "}
             <Link
-              to="/login"
+              to="/signin"
               className="font-semibold text-gray-700 hover:text-black"
             >
               Log in here
