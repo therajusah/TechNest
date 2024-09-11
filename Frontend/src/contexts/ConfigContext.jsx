@@ -5,7 +5,7 @@ const ConfigContext = createContext();
 
 export const ConfigProvider = ({ children }) => {
   const config = {
-    apiUrl: 'https://technest-backend.onrender.com',
+    apiUrl: 'https://technest-backend-2wv3.onrender.com',
   };
 
   return (
