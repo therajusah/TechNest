@@ -34,16 +34,16 @@ const Footer = () => {
           <div>
             <h4 className="mb-4 text-lg font-semibold">Follow Us</h4>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 transition-colors hover:text-white">
+              <a href="https://github.com/therajusah/TechNest" className="text-gray-400 transition-colors hover:text-white">
                 <FaGithub className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 transition-colors hover:text-white">
+              <a href="https://x.com/therajusah" className="text-gray-400 transition-colors hover:text-white">
                 <FaTwitter className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 transition-colors hover:text-white">
+              <a href="https://www.linkedin.com/in/therajusah" className="text-gray-400 transition-colors hover:text-white">
                 <FaLinkedin className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 transition-colors hover:text-white">
+              <a href="devraju0808@gmail.com" className="text-gray-400 transition-colors hover:text-white">
                 <MdEmail className="w-6 h-6" />
               </a>
             </div>
