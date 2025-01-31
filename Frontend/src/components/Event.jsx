@@ -37,7 +37,7 @@ const Event = () => {
       {loading ? (
         <Loader /> 
       ) : (
-        <div className="w-full h-full">
+        <div className="w-full h-full pt-20">
           <div className="flex flex-col items-center justify-center p-5">
             <h1 className="text-4xl font-bold">Upcoming Events</h1>
             <div className="flex flex-wrap justify-center gap-10 mt-5">

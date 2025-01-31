@@ -77,7 +77,7 @@ const Signup = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col justify-center min-h-full px-6 py-12 lg:px-8 bg-gray-50">
+      <div className="flex flex-col justify-center min-h-full px-6 py-12 lg:px-8 bg-gray-50 pt-20">
         <div className="p-6 bg-white rounded-lg shadow-lg sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="text-2xl font-bold leading-9 tracking-tight text-center text-gray-900">
             Sign Up for an Admin Account

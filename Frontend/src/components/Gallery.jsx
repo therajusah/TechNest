@@ -32,7 +32,7 @@ const Gallery = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="container mx-auto">
+        <div className="container pt-20 mx-auto">
           <h1 className="flex justify-center my-4 text-2xl font-bold">
             Our past Events
           </h1>
