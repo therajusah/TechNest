@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'; 
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -239,6 +240,13 @@ const Home = () => {
       <Footer />
     </div>
   );
+};
+
+
+FeatureCard.propTypes = {
+  icon: PropTypes.elementType.isRequired, 
+  title: PropTypes.string.isRequired,     
+  description: PropTypes.string.isRequired, 
 };
 
 export default Home;
