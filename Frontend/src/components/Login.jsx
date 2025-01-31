@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { useConfig } from '../contexts/useConfig';
+import Footer from "./Footer";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -55,9 +56,9 @@ const Signin = () => {
   return (
     <>
       <Navbar />
-      <div className="flex min-h-screen justify-center items-center bg-gray-50 px-6 py-12 lg:px-8">
-        <div className="bg-white max-w-md w-full rounded-lg shadow-lg p-6">
-          <h2 className="text-center text-2xl font-bold text-gray-900 mb-6">
+      <div className="flex items-center justify-center min-h-screen px-6 py-12 bg-gray-50 lg:px-8">
+        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="mb-6 text-2xl font-bold text-center text-gray-900">
             Hello Admin, Sign in to your account
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -76,7 +77,7 @@ const Signin = () => {
                 required
                 value={email}
                 onChange={handleEmailChange}
-                className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full py-2 text-gray-900 border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
             <div>
@@ -95,7 +96,7 @@ const Signin = () => {
                   required
                   value={password}
                   onChange={handlePasswordChange}
-                  className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full py-2 text-gray-900 border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 <button
                   type="button"
@@ -109,13 +110,13 @@ const Signin = () => {
             <div>
               <button
                 type="submit"
-                className="w-full bg-black py-2 px-4 rounded-md shadow-sm text-sm font-semibold text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
+                className="w-full px-4 py-2 text-sm font-semibold text-white bg-black rounded-md shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600"
               >
                 Sign In
               </button>
             </div>
           </form>
-          <p className="mt-4 text-center text-sm text-gray-600">
+          <p className="mt-4 text-sm text-center text-gray-600">
             Not an Admin?{" "}
             <Link
               to="/signup"
@@ -126,6 +127,8 @@ const Signin = () => {
           </p>
         </div>
       </div>
+      <Footer />
+
     </>
   );
 };
