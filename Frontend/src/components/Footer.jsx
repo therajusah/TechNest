@@ -1,102 +1,60 @@
-import { Link } from "react-router-dom";
-import {
-  AiFillFacebook,
-  AiFillInstagram,
-  AiFillLinkedin,
-  AiFillYoutube,
-} from "react-icons/ai";
-
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
 const Footer = () => {
   return (
-    <div className="py-8 overflow-auto text-black bg-white">
-      <hr className="my-2" />
-      <div className="container mx-auto">
-        <div className="grid items-center grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="pl-3 ml-4 text-center md:ml-16 md:text-left md:pl-0">
-            <h4 className="pt-2 mt-3 text-2xl font-bold">Important Links</h4>
-            <div className="flex items-center justify-center mt-3 ml-8 md:justify-start md:ml-0">
-              <ul className="text-center md:text-left">
-                <li className="mb-2">
-                  <a
-                    href="https://www.scesupaul.org"
-                    className="block text-sm font-bold"
-                    target="_blank"
-                  >
-                    Official Website
-                  </a>
-                </li>
-                <li className="mb-2">
-                  <Link to="/" className="block text-sm font-semibold">
-                    Home
-                  </Link>
-                </li>
-                <li className="mb-2">
-                  <Link to="/events" className="block text-sm font-semibold">
-                    Events
-                  </Link>
-                </li>
-                <li className="mb-2">
-                  <Link to="/gallery" className="block text-sm font-semibold">
-                    Gallery
-                  </Link>
-                </li>
-                <li className="mb-2">
-                  <Link to="/brochure" className="block text-sm font-semibold">
-                    Brochure
-                  </Link>
-                </li>
-              </ul>
-            </div>
+    <footer className="py-12 text-white bg-black">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold ">TechNest</h3>
+            <p className="text-gray-400">
+              Empowering innovation through collaboration and technology.
+            </p>
           </div>
-
-          <div className="mt-4 mr-4 text-center md:mr-10 md:text-right">
-            <h4 className="mr-2 text-xl font-bold md:mr-12">Follow Us</h4>
-            <div className="flex justify-center md:justify-end">
-              <a
-                href="#"
-                className="mr-2 text-black md:mr-4 hover:text-gray-700"
-                target="_blank"
-              >
-                <AiFillLinkedin size={26} />
+          
+          <div>
+            <h4 className="mb-4 text-lg font-semibold">Quick Links</h4>
+            <ul className="space-y-2">
+              <li><a href="/events" className="text-gray-400 transition-colors hover:text-white">Events</a></li>
+              <li><a href="/gallery" className="text-gray-400 transition-colors hover:text-white">Gallery</a></li>
+              <li><a href="/login" className="text-gray-400 transition-colors hover:text-white">Login</a></li>
+              <li><a href="/signup" className="text-gray-400 transition-colors hover:text-white">Sign Up</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="mb-4 text-lg font-semibold">Contact</h4>
+            <ul className="space-y-2">
+              <li className="text-gray-400">Email: info@technest.com</li>
+              <li className="text-gray-400">Phone: (123) 456-7890</li>
+              <li className="text-gray-400">Address: Tech Valley, Innovation Street</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="mb-4 text-lg font-semibold">Follow Us</h4>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 transition-colors hover:text-white">
+                <FaGithub className="w-6 h-6" />
               </a>
-              <a
-                href="#"
-                className="mr-2 text-black md:mr-4 hover:text-gray-700"
-                target="_blank"
-              >
-                <AiFillInstagram size={26} />
+              <a href="#" className="text-gray-400 transition-colors hover:text-white">
+                <FaTwitter className="w-6 h-6" />
               </a>
-              <a
-                href="#"
-                className="mr-2 text-black md:mr-4 hover:text-gray-700"
-                target="_blank"
-              >
-                <AiFillFacebook size={26} />
+              <a href="#" className="text-gray-400 transition-colors hover:text-white">
+                <FaLinkedin className="w-6 h-6" />
               </a>
-              <a
-                href="#"
-                className="mr-2 text-black md:mr-4 hover:text-gray-700"
-                target="_blank"
-              >
-                <AiFillYoutube size={26} />
+              <a href="#" className="text-gray-400 transition-colors hover:text-white">
+                <MdEmail className="w-6 h-6" />
               </a>
             </div>
           </div>
         </div>
+        
+        <div className="pt-8 mt-12 text-center text-gray-400 border-t border-gray-800">
+          <p>&copy; {new Date().getFullYear()} TechNest. All rights reserved.</p>
+        </div>
       </div>
-      <div className="flex items-center justify-center mt-4 ">
-        <h3>
-          Made with ❤️ by{" "}
-          <a
-            href="https://www.linkedin.com/in/therajusah"
-            target="_blank"
-            className="font-semibold bg-gray-100 rounded-md none"
-          >
-            Raju Kumar
-          </a>
-        </h3>
-      </div>
-    </div>
+    </footer>
   );
 };
 

@@ -1,71 +1,104 @@
-import { useState } from "react";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, Terminal } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
-  const [nav, setNav] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
-  const handleNav = () => {
-    setNav(!nav);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  // Array containing navigation items 
-  const navItems = [
-    { id: 1, text: "Home", url: "/" },
-    { id: 2, text: "Events", url: "/events" },
-    { id: 3, text: "Gallery", url: "/gallery" },
-    { id: 4, text: "Brochure", url: "/brochure" },
-    // { id: 5, text: 'About', url:' /about'},
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Events', path: '/events' },
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'Login', path: '/login' },
   ];
 
   return (
-    <div className="flex items-center justify-between h-20 max-w-full px-4 mx-auto text-black bg-white">
-      {/* Logo */}
-      <Link to="/">
-        <h1 className="w-full text-3xl font-bold text-black hover:text-gray-800">TechNest</h1>
-      </Link>
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`}>
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <Link to="/" className="flex items-center space-x-2">
+            <Terminal className="w-8 h-8" />
+            <span className="text-xl font-bold">TechNest</span>
+          </Link>
 
-      {/* Desktop Navigation */}
-      <ul className="hidden md:flex">
-        {navItems.map((item) => (
-          <li
-            key={item.id}
-            className="p-4 m-2 font-semibold duration-300 rounded-full cursor-pointer hover:bg-gray-300 hover:text-black"
-          >
-            <Link to={item.url}>{item.text}</Link>
-          </li>
-        ))}
-      </ul>
 
-      {/* Mobile Navigation Icon */}
-      <div onClick={handleNav} className="block md:hidden">
-        {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+          <div className="items-center hidden space-x-8 md:flex">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`text-sm font-medium transition-colors duration-300 ${
+                  location.pathname === link.path
+                    ? 'text-black'
+                    : 'text-gray-600 hover:text-black'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <Link
+              to="/signup"
+              className="px-4 py-2 text-sm font-medium text-white transition-colors duration-300 bg-black rounded-full hover:bg-gray-800"
+            >
+              Sign Up
+            </Link>
+          </div>
+
+
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-600 hover:text-black"
+            >
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
-      <ul
-        className={
-          nav
-            ? "fixed md:hidden left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-white ease-in-out duration-500 transform translate-x-0"
-            : "ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]"
-        }
-      >
-        {/* Mobile Logo */}
-        <Link to="/">
-          <h1 className="w-full m-4 text-3xl font-bold text-black hover:text-gray-800">TechNest</h1>
-        </Link>
 
-        {/* Mobile Navigation Items */}
-        {navItems.map((item) => (
-          <li
-            key={item.id}
-            className="p-4 duration-300 border-b border-gray-300 cursor-pointer rounded-xl hover:bg-gray-300 hover:text-black"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="bg-white md:hidden"
           >
-            <Link to={item.url} className="text-black hover:text-gray-800">{item.text}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="block px-3 py-2 text-base font-medium text-gray-600 rounded-md hover:text-black hover:bg-gray-50"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <Link
+                to="/signup"
+                className="block px-3 py-2 text-base font-medium text-white bg-black rounded-md hover:bg-gray-800"
+                onClick={() => setIsOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 };
 
